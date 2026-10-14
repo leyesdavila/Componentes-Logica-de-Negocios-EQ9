@@ -1,0 +1,24 @@
+@startuml
+actor Recepcion
+participant "CheckOutService" as S
+participant "EstanciaRepository" as ER
+participant "CuentaHuespedRepository" as CR
+participant "HabitacionRepository" as HR
+participant "UnitOfWork" as U
+Recepcion -> S : ejecutarCheckOut(estanciaId, pago)
+S -> ER : obtenerEstancia(estanciaId)
+ER --> S : estancia activa
+S -> CR : obtenerCuenta(estanciaId)
+CR --> S : cargos y total
+S -> S : verificar liquidación y excepciones
+alt cuenta liquidada
+ S -> ER : cerrarEstancia()
+ S -> HR : enviarALimpieza(habitacionId)
+ S -> U : confirmar()
+ U --> S : operación guardada
+ S --> Recepcion : check-out confirmado; habitación pendiente limpieza
+else saldo pendiente o error
+ S -> U : revertir()
+ S --> Recepcion : no se cierra; mostrar saldo/causa
+end
+@enduml

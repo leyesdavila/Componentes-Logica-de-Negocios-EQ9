@@ -1,0 +1,11 @@
+digraph G { graph [rankdir=TB, bgcolor="white", pad="0.25", nodesep="0.3", ranksep="0.4", label="Proceso central: reservación a disponibilidad", labelloc=t, fontsize=18]; node [shape=box, style="rounded,filled", fillcolor="#F3F6FA", color="#355070", fontname="Arial", fontsize=9, margin="0.12,0.08"]; edge [fontname="Arial", fontsize=8, color="#52616B", arrowsize=.7]; start [shape=circle,label="Inicio",fillcolor="#E6F4EA"]; avail [label="Consultar disponibilidad
+y tarifa"]; decision [shape=diamond,label="¿Disponible?",fillcolor="#FFF3D6"]; pre [label="Crear pre-reserva
+pendiente de garantía"]; guar [shape=diamond,label="¿Garantía válida
+en 24 horas?",fillcolor="#FFF3D6"]; confirm [label="Confirmar reservación"]; ci [label="Check-in: identidad +
+garantía + habitación lista"]; stay [label="Estancia: registrar consumos
+y cambios trazables"]; co [label="Check-out: liquidar cargos
+y cerrar estancia"]; clean [label="Habitación sucia /
+pendiente de limpieza"]; ready [label="Limpieza completa
+(30–45 min estándar)"]; end [shape=doublecircle,label="Disponible",fillcolor="#E6F4EA"]; no [label="Informar sin disponibilidad
+y ofrecer alternativas",fillcolor="#FCE8E6"]; expire [label="Liberar pre-reserva
+tras 24 h sin garantía",fillcolor="#FCE8E6"]; start->avail->decision; decision->pre [label="Sí"]; decision->no [label="No"]; pre->guar; guar->confirm [label="Sí"]; guar->expire [label="No"]; confirm->ci->stay->co->clean->ready->end;}

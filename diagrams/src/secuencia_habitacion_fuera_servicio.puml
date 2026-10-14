@@ -1,0 +1,22 @@
+@startuml
+actor Recepcion
+participant "CambiarHabitacionService" as S
+participant "ReservacionRepository" as RR
+participant "HabitacionRepository" as HR
+participant "Administracion" as A
+participant "UnitOfWork" as U
+Recepcion -> S : reasignar(habitación fuera de servicio)
+S -> HR : buscarEquivalenteDisponible(categoria)
+HR --> S : alternativa o ninguna
+alt existe habitación igual o superior
+ S -> A : solicitar autorización si sube categoría
+ A --> S : autorización/denegación (si aplica)
+ S -> RR : actualizar habitación de reservación
+ S -> HR : marcar nueva ocupada; anterior fuera de servicio
+ S -> U : confirmar y guardar historial
+ S --> Recepcion : cambio confirmado sin cargo adicional
+else no existe alternativa
+ S --> Recepcion : informar falta de disponibilidad
+ note right of Recepcion : Derivación a hotel aliado es manual
+end
+@enduml

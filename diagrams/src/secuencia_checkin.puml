@@ -1,0 +1,26 @@
+@startuml
+actor Recepcion
+participant "CheckInService" as S
+participant "ReservacionRepository" as RR
+participant "HabitacionRepository" as HR
+participant "Reservacion" as R
+participant "Habitacion" as H
+participant "UnitOfWork" as U
+Recepcion -> S : ejecutarCheckIn(reservacionId, identidad)
+S -> RR : obtener(reservacionId)
+RR --> S : reservacion
+S -> HR : obtener(habitacionId)
+HR --> S : habitacion
+S -> R : validarConfirmadaYGarantia()
+S -> H : validarDisponible()
+alt identidad válida, reservación confirmada y habitación lista
+ S -> R : iniciarEstancia()
+ S -> H : marcarOcupada()
+ S -> U : confirmar()
+ U --> S : cambios persistidos
+ S --> Recepcion : check-in registrado
+else regla no cumplida
+ S -> U : revertir()
+ S --> Recepcion : rechazo con motivo de negocio
+end
+@enduml

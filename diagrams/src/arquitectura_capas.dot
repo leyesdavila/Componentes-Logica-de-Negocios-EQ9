@@ -1,0 +1,5 @@
+digraph G { graph [rankdir=TB, bgcolor="white", pad="0.3", nodesep="0.4", ranksep="0.45", label="Arquitectura propuesta por responsabilidades", labelloc=t, fontsize=20]; node [shape=box, style="rounded,filled", fontname="Arial", fontsize=11, margin="0.2,0.12"]; edge [color="#52616B", arrowsize=.8]; UI [label="Actores / interfaz
+Recepción · Reservaciones · Limpieza · Administración", fillcolor="#E8F1FA", color="#355070"]; APP [label="Aplicación · Service Layer
+CheckInService · CheckOutService · Commands / Queries", fillcolor="#FFF3D6", color="#D49B54"]; DOM [label="Dominio
+Reservación · Habitación · Estancia · Cuenta · Reglas", fillcolor="#E6F4EA", color="#3B7A57"]; PORTS [label="Interfaces de Repository + Unit of Work", fillcolor="#F0EAFE", color="#7B6DAB"]; INFRA [label="Infraestructura (propuesta)
+Persistencia · reloj · notificaciones", fillcolor="#FCE8E6", color="#B45F55"]; UI -> APP -> DOM; APP -> PORTS; PORTS -> INFRA; INFRA -> PORTS [style=dashed, label="implementa contratos"];}

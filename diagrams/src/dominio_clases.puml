@@ -1,0 +1,71 @@
+@startuml
+skinparam packageStyle rectangle
+skinparam classAttributeIconSize 0
+package "Dominio" {
+ class Reservacion {
+  +id: ReservacionId
+  +estado: EstadoReservacion
+  +fechas: RangoFechas
+  +confirmar(garantia)
+  +cancelar(penalizacion)
+ }
+ class Habitacion {
+  +id: HabitacionId
+  +numero: int
+  +estado: EstadoHabitacion
+  +marcarOcupada()
+  +enviarALimpieza()
+  +marcarDisponible()
+ }
+ class Estancia {
+  +id: EstanciaId
+  +checkIn
+  +checkOut
+  +cerrar()
+ }
+ class CuentaHuesped {
+  +id: CuentaId
+  +total(): Dinero
+  +agregarCargo(consumo)
+ }
+ class Consumo {
+  +id: ConsumoId
+  +concepto: str
+  +monto: Dinero
+  +fechaHora
+  +capturadoPor
+ }
+ class Garantia { +tipo: TipoGarantia +referencia } 
+ class Dinero { +cantidad: Decimal +moneda: MXN }
+ class RangoFechas { +entrada +salida }
+ class HistorialCambioHabitacion { +fecha +habitacionAnterior +habitacionNueva +responsable }
+}
+package "Aplicación" {
+ class CheckInService
+ class CheckOutService
+ class RegistrarConsumoService
+ class CambiarHabitacionService
+ class ConsultarDisponibilidadQuery
+}
+package "Puertos de persistencia" {
+ interface ReservacionRepository
+ interface HabitacionRepository
+ interface EstanciaRepository
+ interface CuentaHuespedRepository
+ interface UnitOfWork
+}
+Reservacion "1" --> "1" Habitacion : asigna
+Reservacion "1" --> "0..1" Garantia
+Reservacion "1" --> "0..1" Estancia
+Estancia "1" --> "1" CuentaHuesped
+CuentaHuesped "1" o-- "0..*" Consumo
+Consumo --> Dinero
+Reservacion --> RangoFechas
+Habitacion "1" --> "0..*" HistorialCambioHabitacion
+CheckInService ..> ReservacionRepository
+CheckInService ..> HabitacionRepository
+CheckOutService ..> EstanciaRepository
+CheckOutService ..> CuentaHuespedRepository
+CheckOutService ..> UnitOfWork
+ConsultarDisponibilidadQuery ..> HabitacionRepository
+@enduml
