@@ -1,0 +1,122 @@
+ENTREGA — TECHSTORE, COMPONENTES DE LÓGICA DE NEGOCIO (UNIDAD 4)
+
+Proyecto académico desarrollado a partir del paquete original de la
+actividad. Los cinco CSV se conservan sin modificaciones y la solución
+(dominio, Specifications, servicio, API, pruebas y documentos) se
+elaboró de forma independiente.
+
+RESUMEN
+  Archivos inventariados : 78
+  Tamaño total           : 4,218,025 bytes
+  Pruebas automatizadas  : 116 passed
+  Pedidos en los fixtures: 16
+  Escenarios de bitácora : 15 (15/15 coinciden)
+  Endpoints de negocio   : 11
+  Endpoints de apoyo     : 2 (/health, /admin/reload-fixtures)
+
+CONTENIDO
+  app/           Dominio, Specifications, servicio y API FastAPI.
+  datos/         Los 5 CSV originales, sin editar.
+  tests/         Suite de pruebas (dominio, API, escenarios, specs).
+  scripts/       Ejecución de bitácora, evidencias y documentos.
+  docs/          Análisis, bitácora, reflexión, diagramas y reporte.
+  evidencias/    Salidas reproducibles de carga, pruebas y API.
+  README.md      Guía de instalación, ejecución y estructura.
+
+VERIFICACIÓN RÁPIDA
+  python cargar_csv.py
+  python scripts/ejecutar_bitacora.py
+  python -m pytest -q
+  uvicorn app.api:app --reload
+
+HUELLAS SHA-256 DE LOS CSV ORIGINALES
+  clientes.csv               da9fd57c0a68824899ce9fde246c04d02ef96dbe6c4dc5bc7768792e5383e8e0
+  detalle_pedidos.csv        8dcd9573b18a9391a46e7baa4f11fc5c4a97c3b78cafa1022bb0f1435f97623a
+  escenarios.csv             1bcee568abee998d01d6632dcc6024aa375d8bd79e4a467698785b2d0141bbda
+  pedidos.csv                550bac130628582d2c6303f806cbddabff5994ebd974089d4966d9cc29dde8b8
+  productos.csv              ecacde51403c29b77b80f2ba1993d34cb1f3b3ef3af22d501ece13ca8c7dd3c2
+
+INVENTARIO
+  .gitattributes                                                         142 bytes
+  .gitignore                                                             299 bytes
+  README.md                                                           20,797 bytes
+  README.txt                                                           1,803 bytes
+  README_material_original.txt                                         1,803 bytes
+  app/__init__.py                                                        412 bytes
+  app/api.py                                                          14,840 bytes
+  app/domain.py                                                       10,793 bytes
+  app/service.py                                                       3,920 bytes
+  app/specifications.py                                                9,199 bytes
+  cargar_csv.py                                                        1,304 bytes
+  datos/clientes.csv                                                     293 bytes
+  datos/detalle_pedidos.csv                                              344 bytes
+  datos/escenarios.csv                                                 1,037 bytes
+  datos/pedidos.csv                                                      819 bytes
+  datos/productos.csv                                                    426 bytes
+  docs/ANALISIS_DATOS.md                                               6,249 bytes
+  docs/BITACORA_E01_E15.md                                             6,097 bytes
+  docs/DIAGRAMA_ESTADOS.md                                             4,779 bytes
+  docs/PREGUNTAS_REPORTE.md                                           13,569 bytes
+  docs/REFLEXION.md                                                    8,801 bytes
+  docs/Reporte_Tecnico_TechStore_Unidad_4.docx                       531,048 bytes
+  docs/Reporte_Tecnico_TechStore_Unidad_4.pdf                        992,389 bytes
+  docs/bitacora/Bitacora_TechStore.docx                               45,600 bytes
+  docs/bitacora/Bitacora_TechStore.pdf                               423,104 bytes
+  docs/bitacora/bitacora_escenarios.csv                                1,779 bytes
+  docs/diagramas/README.md                                             6,412 bytes
+  docs/diagramas/clases.mmd                                            2,253 bytes
+  docs/diagramas/clases.png                                           86,424 bytes
+  docs/diagramas/clases.puml                                           2,064 bytes
+  docs/diagramas/clases.svg                                          248,152 bytes
+  docs/diagramas/especificaciones.mmd                                  2,381 bytes
+  docs/diagramas/especificaciones.png                                 75,193 bytes
+  docs/diagramas/especificaciones.puml                                 2,163 bytes
+  docs/diagramas/especificaciones.svg                                242,446 bytes
+  docs/diagramas/estados.mmd                                             538 bytes
+  docs/diagramas/estados.png                                          43,534 bytes
+  docs/diagramas/estados.puml                                            569 bytes
+  docs/diagramas/estados.svg                                         214,144 bytes
+  docs/diagramas/flujo-confirmacion.mmd                                  318 bytes
+  docs/diagramas/flujo-confirmacion.png                               30,824 bytes
+  docs/diagramas/flujo-confirmacion.puml                                 434 bytes
+  docs/diagramas/flujo-confirmacion.svg                              208,472 bytes
+  docs/diagramas/secuencia-confirmar.mmd                               1,593 bytes
+  docs/diagramas/secuencia-confirmar.png                             225,619 bytes
+  docs/diagramas/secuencia-confirmar.puml                              1,461 bytes
+  docs/diagramas/secuencia-confirmar.svg                             211,325 bytes
+  docs/evidencias/01_carga_csv.txt                                       349 bytes
+  docs/evidencias/02_maquina_estados.txt                               3,359 bytes
+  docs/evidencias/03_escenarios.txt                                    4,032 bytes
+  docs/evidencias/04_pytest.txt                                       11,449 bytes
+  docs/evidencias/05_respuestas_http.txt                               2,503 bytes
+  docs/evidencias/06_swagger_docs.png                                 85,533 bytes
+  docs/evidencias/07_openapi.json                                     11,619 bytes
+  docs/evidencias/08_swagger_exito_200.png                            60,737 bytes
+  docs/evidencias/09_swagger_rechazo_404.png                          60,186 bytes
+  docs/evidencias/10_swagger_rechazo_422.png                          60,138 bytes
+  docs/evidencias/11_carga_16_pedidos.png                             31,385 bytes
+  docs/evidencias/12_pytest_resultados.png                            19,833 bytes
+  evidencias/bitacora_consola.txt                                      1,142 bytes
+  evidencias/carga_csv.txt                                               353 bytes
+  evidencias/respuestas_api.json                                       5,788 bytes
+  evidencias/resultado_pytest.txt                                        667 bytes
+  pytest.ini                                                              41 bytes
+  requirements-docs.txt                                                  384 bytes
+  requirements.txt                                                       432 bytes
+  scripts/ejecutar_bitacora.py                                         5,667 bytes
+  scripts/exportar_pdf.ps1                                             2,524 bytes
+  scripts/generar_documentos.py                                       75,986 bytes
+  scripts/generar_evidencias.ps1                                       2,025 bytes
+  scripts/generar_evidencias.py                                       13,735 bytes
+  tests/conftest.py                                                      460 bytes
+  tests/test_api.py                                                    8,401 bytes
+  tests/test_domain.py                                                14,123 bytes
+  tests/test_escenarios.py                                            11,141 bytes
+  tests/test_maquina_estados.py                                        6,980 bytes
+  tests/test_servicio.py                                               3,292 bytes
+  tests/test_specifications.py                                         5,796 bytes
+
+NOTA
+  El repositorio es local y en memoria. Los cambios de los pedidos se
+  pierden al reiniciar; los CSV nunca se escriben desde la aplicación.
+  Este manifiesto se regenera con: python scripts/generar_evidencias.py

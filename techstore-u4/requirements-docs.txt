@@ -1,0 +1,12 @@
+# Dependencias para regenerar los documentos DOCX y PDF.
+#
+# Se instalan en el Python del sistema, no en el entorno virtual de la
+# aplicacion, porque solo se usan para construir la documentacion:
+#
+#   C:\Python314\python.exe -m pip install -r requirements-docs.txt
+#
+# La exportacion a PDF usa Microsoft Word mediante COM (Windows).
+
+python-docx==1.2.0
+PyMuPDF==1.26.7
+pypdf==6.1.3

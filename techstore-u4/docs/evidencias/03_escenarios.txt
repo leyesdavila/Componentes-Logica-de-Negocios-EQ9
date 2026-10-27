@@ -1,0 +1,39 @@
+﻿============================= test session starts =============================
+platform win32 -- Python 3.14.7, pytest-9.1.1, pluggy-1.7.0 -- <raiz-del-proyecto>\.venv\Scripts\python.exe
+cachedir: .pytest_cache
+rootdir: <raiz-del-proyecto>
+plugins: anyio-4.15.1
+collecting ... collected 15 items
+
+tests/test_escenarios.py::test_e01_o001_descuento_10_por_ciento E01 | DRAFT | evaluate_discount(O001) | 10% (1890.00 MXN) | VIP + total 2100.00 > 500 + 4 unidades >= 4 + sin promoci├│n | n/a (no es transici├│n de estado)
+PASSED
+tests/test_escenarios.py::test_e02_o002_sin_descuento E02 | DRAFT | evaluate_discount(O002) | 0% (1050.00 MXN) | No cumple VIP ni unidades >= 4; tampoco supera 5000 | n/a (no es transici├│n de estado)
+PASSED
+tests/test_escenarios.py::test_e03_o003_confirmar_rechazado_cliente_inactivo E03 | DRAFT | confirm() | RECHAZADO (InvalidOrderData) | El cliente C003 est├í inactivo: un pedido no puede confirmarse | ninguno (la operaci├│n fall├│)
+PASSED
+tests/test_escenarios.py::test_e04_o005_promocion_activa_excluye_descuento E04 | DRAFT | evaluate_discount(O005) | 0% (2100.00 MXN) | La promoci├│n activa bloquea las dos reglas de descuento | n/a (no es transici├│n de estado)
+PASSED
+tests/test_escenarios.py::test_e05_o006_descuento_5_por_ciento E05 | DRAFT | evaluate_discount(O006) | 5% (17100.00 MXN) | Total > 5000 y sin promoci├│n; no es VIP, as├¡ que no aplica el 10 % | n/a (no es transici├│n de estado)
+PASSED
+tests/test_escenarios.py::test_e06_o007_confirmar_rechazado_pedido_vacio E06 | DRAFT | confirm() | RECHAZADO (InvalidOrderData) | El pedido no tiene art├¡culos: se requieren renglones para confirmar | ninguno (la operaci├│n fall├│)
+PASSED
+tests/test_escenarios.py::test_e07_o008_confirmar_exito_con_20_unidades E07 | DRAFT | confirm() | CONFIRMED | 20 unidades exactas: el l├¡mite es 20 y no se excede | OrderConfirmed
+PASSED
+tests/test_escenarios.py::test_e08_o009_agregar_21_unidades_rechazado E08 | DRAFT | add_item(SKU003 x2) | RECHAZADO (OrderItemLimitExceeded) | 19 + 2 = 21 unidades: el m├íximo es 20 unidades, no 20 renglones | ninguno (la operaci├│n fall├│)
+PASSED
+tests/test_escenarios.py::test_e09_o010_total_500_sin_descuento E09 | DRAFT | evaluate_discount(O010) | 0% (500.00 MXN) | El total es exactamente 500 y la regla exige > 500, no >= 500 | n/a (no es transici├│n de estado)
+PASSED
+tests/test_escenarios.py::test_e10_o011_tres_unidades_sin_descuento E10 | DRAFT | evaluate_discount(O011) | 0% (1500.00 MXN) | La regla del 10 % exige >= 4 unidades y este pedido tiene 3 | n/a (no es transici├│n de estado)
+PASSED
+tests/test_escenarios.py::test_e11_o012_enviar_sin_guia_rechazado E11 | DRAFT | confirm() y ship('') | CONFIRMADO, env├¡o RECHAZADO | La gu├¡a de env├¡o es obligatoria: la transici├│n no se ejecuta | OrderConfirmed (ninguno por el env├¡o fallido)
+PASSED
+tests/test_escenarios.py::test_e12_o013_confirmar_dos_veces_rechazada_la_segunda E12 | DRAFT | confirm() dos veces | 2.a RECHAZADA (InvalidOrderTransition) | No se permite confirmar desde CONFIRMED | OrderConfirmed (solo uno; el rechazo no registra evento)
+PASSED
+tests/test_escenarios.py::test_e13_o014_cancelar_desde_shipped_rechazado E13 | DRAFT | confirm(), ship() y cancel() | enviado, cancelaci├│n RECHAZADA | Solo se permite cancelar desde CONFIRMED, no desde SHIPPED | OrderConfirmed, OrderShipped (ninguno por la cancelaci├│n fallida)
+PASSED
+tests/test_escenarios.py::test_e14_o015_devolucion_desde_shipped E14 | DRAFT | confirm(), ship() y return_order() | RETURNED | La devoluci├│n se permite desde SHIPPED | OrderConfirmed, OrderShipped, OrderReturned
+PASSED
+tests/test_escenarios.py::test_e15_o016_entrega_desde_shipped E15 | DRAFT | confirm(), ship() y deliver() | DELIVERED | La entrega se permite desde SHIPPED | OrderConfirmed, OrderShipped, OrderDelivered
+PASSED
+
+============================= 15 passed in 0.10s ==============================

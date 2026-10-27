@@ -1,0 +1,3 @@
+# Normaliza los finales de linea en el repositorio (LF) y deja que cada
+# sistema operativo use los suyos en la copia de trabajo.
+* text=auto

@@ -1,0 +1,273 @@
+[
+  {
+    "caso": "Salud del servicio",
+    "method": "GET",
+    "url": "/health",
+    "status_code": 200,
+    "response": {
+      "status": "ok",
+      "pedidos_en_memoria": 16,
+      "version": "1.0.0"
+    }
+  },
+  {
+    "caso": "Consulta válida",
+    "method": "GET",
+    "url": "/orders/O001",
+    "status_code": 200,
+    "response": {
+      "id": "O001",
+      "cliente_id": "C001",
+      "cliente": "Ana Torres",
+      "es_vip": true,
+      "status": "DRAFT",
+      "unidades": 4,
+      "renglones": 2,
+      "total": "2100.00",
+      "descuento_pct": "10",
+      "total_con_descuento": "1890.00",
+      "eventos": [],
+      "items": [
+        {
+          "sku": "SKU001",
+          "quantity": 2,
+          "unit_price": "600.00",
+          "subtotal": "1200.00"
+        },
+        {
+          "sku": "SKU002",
+          "quantity": 2,
+          "unit_price": "450.00",
+          "subtotal": "900.00"
+        }
+      ],
+      "tracking_number": null,
+      "cancel_reason": null,
+      "reglas": [
+        {
+          "regla": "total > 500",
+          "cumple": true
+        },
+        {
+          "regla": "cliente VIP",
+          "cumple": true
+        },
+        {
+          "regla": "unidades >= 4",
+          "cumple": true
+        },
+        {
+          "regla": "NOT promoción activa",
+          "cumple": true
+        },
+        {
+          "regla": "total > 5000",
+          "cumple": false
+        },
+        {
+          "regla": "cliente activo",
+          "cumple": true
+        },
+        {
+          "regla": "pedido con artículos",
+          "cumple": true
+        }
+      ],
+      "historial": []
+    }
+  },
+  {
+    "caso": "Pedido inexistente",
+    "method": "GET",
+    "url": "/orders/O999",
+    "status_code": 404,
+    "response": {
+      "detail": "El pedido O999 no existe"
+    }
+  },
+  {
+    "caso": "Reglas de descuento",
+    "method": "GET",
+    "url": "/orders/O001/rules",
+    "status_code": 200,
+    "response": {
+      "id": "O001",
+      "cliente_id": "C001",
+      "cliente": "Ana Torres",
+      "es_vip": true,
+      "status": "DRAFT",
+      "unidades": 4,
+      "renglones": 2,
+      "total": "2100.00",
+      "descuento_pct": "10",
+      "total_con_descuento": "1890.00",
+      "eventos": [],
+      "items": [
+        {
+          "sku": "SKU001",
+          "quantity": 2,
+          "unit_price": "600.00",
+          "subtotal": "1200.00"
+        },
+        {
+          "sku": "SKU002",
+          "quantity": 2,
+          "unit_price": "450.00",
+          "subtotal": "900.00"
+        }
+      ],
+      "tracking_number": null,
+      "cancel_reason": null,
+      "reglas": [
+        {
+          "regla": "total > 500",
+          "cumple": true
+        },
+        {
+          "regla": "cliente VIP",
+          "cumple": true
+        },
+        {
+          "regla": "unidades >= 4",
+          "cumple": true
+        },
+        {
+          "regla": "NOT promoción activa",
+          "cumple": true
+        },
+        {
+          "regla": "total > 5000",
+          "cumple": false
+        },
+        {
+          "regla": "cliente activo",
+          "cumple": true
+        },
+        {
+          "regla": "pedido con artículos",
+          "cumple": true
+        }
+      ],
+      "historial": []
+    }
+  },
+  {
+    "caso": "Confirmación válida",
+    "method": "POST",
+    "url": "/orders/O013/confirm",
+    "status_code": 200,
+    "response": {
+      "id": "O013",
+      "status": "CONFIRMED",
+      "total": "600.00",
+      "eventos": [
+        "OrderConfirmed"
+      ]
+    }
+  },
+  {
+    "caso": "Confirmación duplicada (409)",
+    "method": "POST",
+    "url": "/orders/O013/confirm",
+    "status_code": 409,
+    "response": {
+      "detail": "Solo DRAFT"
+    }
+  },
+  {
+    "caso": "Pedido vacío (422)",
+    "method": "POST",
+    "url": "/orders/O007/confirm",
+    "status_code": 422,
+    "response": {
+      "detail": "Requiere artículos y cliente activo"
+    }
+  },
+  {
+    "caso": "Cliente inactivo (422)",
+    "method": "POST",
+    "url": "/orders/O003/confirm",
+    "status_code": 422,
+    "response": {
+      "detail": "Requiere artículos y cliente activo"
+    }
+  },
+  {
+    "caso": "Envío sin guía (422)",
+    "method": "POST",
+    "url": "/orders/O012/ship",
+    "status_code": 409,
+    "response": {
+      "detail": "Solo CONFIRMED"
+    }
+  },
+  {
+    "caso": "Límite de unidades (422)",
+    "method": "POST",
+    "url": "/orders/O009/items",
+    "status_code": 422,
+    "response": {
+      "detail": "Máximo 20 unidades por pedido"
+    }
+  },
+  {
+    "caso": "Creación de pedido (201)",
+    "method": "POST",
+    "url": "/orders",
+    "status_code": 201,
+    "response": {
+      "id": "N017",
+      "cliente_id": "C001",
+      "cliente": "Ana Torres",
+      "es_vip": true,
+      "status": "DRAFT",
+      "unidades": 1,
+      "renglones": 1,
+      "total": "600.00",
+      "descuento_pct": "0",
+      "total_con_descuento": "600.00",
+      "eventos": [],
+      "items": [
+        {
+          "sku": "SKU001",
+          "quantity": 1,
+          "unit_price": "600.00",
+          "subtotal": "600.00"
+        }
+      ],
+      "tracking_number": null,
+      "cancel_reason": null,
+      "reglas": [
+        {
+          "regla": "total > 500",
+          "cumple": true
+        },
+        {
+          "regla": "cliente VIP",
+          "cumple": true
+        },
+        {
+          "regla": "unidades >= 4",
+          "cumple": false
+        },
+        {
+          "regla": "NOT promoción activa",
+          "cumple": true
+        },
+        {
+          "regla": "total > 5000",
+          "cumple": false
+        },
+        {
+          "regla": "cliente activo",
+          "cumple": true
+        },
+        {
+          "regla": "pedido con artículos",
+          "cumple": true
+        }
+      ],
+      "historial": []
+    }
+  }
+]

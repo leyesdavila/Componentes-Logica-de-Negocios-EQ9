@@ -1,0 +1,38 @@
+﻿============================= test session starts =============================
+platform win32 -- Python 3.14.7, pytest-9.1.1, pluggy-1.7.0 -- <raiz-del-proyecto>\.venv\Scripts\python.exe
+cachedir: .pytest_cache
+rootdir: <raiz-del-proyecto>
+plugins: anyio-4.15.1
+collecting ... collected 21 items
+
+tests/test_maquina_estados.py::test_todos_los_pedidos_inician_en_draft PASSED
+tests/test_maquina_estados.py::test_confirm_emite_order_confirmed PASSED
+tests/test_maquina_estados.py::test_ciclo_completo_confirmar_enviar_entregar PASSED
+tests/test_maquina_estados.py::test_ciclo_completo_confirmar_enviar_devolver PASSED
+tests/test_maquina_estados.py::test_cancelacion_desde_confirmed PASSED
+tests/test_maquina_estados.py::test_operaciones_invalidas_no_cambian_estado_ni_eventos[_confirmado-<lambda>-InvalidOrderTransition0] PASSED
+tests/test_maquina_estados.py::test_operaciones_invalidas_no_cambian_estado_ni_eventos[_nada-<lambda>-InvalidOrderTransition0] PASSED
+tests/test_maquina_estados.py::test_operaciones_invalidas_no_cambian_estado_ni_eventos[_nada-<lambda>-InvalidOrderTransition1] PASSED
+tests/test_maquina_estados.py::test_operaciones_invalidas_no_cambian_estado_ni_eventos[_confirmado-<lambda>-InvalidOrderTransition1] PASSED
+tests/test_maquina_estados.py::test_operaciones_invalidas_no_cambian_estado_ni_eventos[_confirmado-<lambda>-InvalidOrderTransition2] PASSED
+tests/test_maquina_estados.py::test_operaciones_invalidas_no_cambian_estado_ni_eventos[_enviado-<lambda>-InvalidOrderTransition] PASSED
+tests/test_maquina_estados.py::test_operaciones_invalidas_no_cambian_estado_ni_eventos[_entregado-<lambda>-InvalidOrderTransition0] PASSED
+tests/test_maquina_estados.py::test_operaciones_invalidas_no_cambian_estado_ni_eventos[_entregado-<lambda>-InvalidOrderTransition1] PASSED
+tests/test_maquina_estados.py::test_operaciones_invalidas_no_cambian_estado_ni_eventos[_confirmado-<lambda>-InvalidOrderData0] PASSED
+tests/test_maquina_estados.py::test_operaciones_invalidas_no_cambian_estado_ni_eventos[_confirmado-<lambda>-InvalidOrderData1] PASSED
+tests/test_maquina_estados.py::test_operaciones_invalidas_no_cambian_estado_ni_eventos[_confirmado-<lambda>-InvalidOrderData2] PASSED
+tests/test_maquina_estados.py::test_operaciones_invalidas_no_cambian_estado_ni_eventos[_confirmado-<lambda>-InvalidOrderData3] PASSED
+tests/test_maquina_estados.py::test_confirmacion_doble_no_agrega_evento PASSED
+tests/test_maquina_estados.py::test_no_se_pueden_agregar_articulos_a_un_pedido_confirmado PASSED
+tests/test_maquina_estados.py::test_limite_de_unidades_no_modifica_el_pedido PASSED
+tests/test_maquina_estados.py::test_demostracion_maquina_de_estados 
+=== MAQUINA DE ESTADOS Y DOMAIN EVENTS ===
+DRAFT (inicial)                   DRAFT | eventos: []
+-> confirm()                      CONFIRMED | eventos: ['OrderConfirmed']
+-> ship(GUIA-DEMO-01)             SHIPPED | eventos: ['OrderConfirmed', 'OrderShipped']
+-> return_order()                 RETURNED | eventos: ['OrderConfirmed', 'OrderShipped', 'OrderReturned']
+-> confirm() (2a vez)             RECHAZADO: Solo DRAFT | eventos: ['OrderConfirmed']
+-> cancel() desde SHIPPED         RECHAZADO: Solo CONFIRMED | estado: SHIPPED | eventos: ['OrderConfirmed', 'OrderShipped']
+PASSED
+
+============================= 21 passed in 0.20s ==============================

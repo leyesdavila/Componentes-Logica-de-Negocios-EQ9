@@ -1,0 +1,10 @@
+flowchart LR
+    A["POST /confirm"] --> B{"¿Existe?"}
+    B -- "No" --> C["404"]
+    B -- "Sí" --> D{"¿DRAFT?"}
+    D -- "No" --> E["409"]
+    D -- "Sí" --> F{"¿Activo y con artículos?"}
+    F -- "No" --> G["422"]
+    F -- "Sí" --> H["confirm()"]
+    H --> I["CONFIRMED + OrderConfirmed"]
+    I --> J["200 OK"]

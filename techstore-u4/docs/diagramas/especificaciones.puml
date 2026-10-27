@@ -1,0 +1,90 @@
+' Patrón Specification y reglas de descuento — TechStore U4
+' Formato UML clásico del curso. Renderizar en plantuml.com o con la extensión de VS Code.
+@startuml
+title Patrón Specification y reglas de descuento — TechStore U4
+skinparam classAttributeIconSize 0
+
+abstract class Specification {
+  + is_satisfied_by(order: Order): bool
+  + description(): str
+  + __and__(other: Specification): AndSpec
+  + __or__(other: Specification): OrSpec
+  + __invert__(): NotSpec
+}
+
+class AndSpec {
+  + left: Specification
+  + right: Specification
+}
+
+class OrSpec {
+  + left: Specification
+  + right: Specification
+}
+
+class NotSpec {
+  + spec: Specification
+}
+
+class MinimumAmountSpec {
+  + amount: Decimal
+}
+
+class VIPCustomerSpec
+
+class MinimumUnitsSpec {
+  + min_units: int
+}
+
+class ActivePromotionSpec
+
+class ActiveCustomerSpec
+
+class HasItemsSpec
+
+class DiscountResult <<value object>> {
+  + percentage: Decimal
+  + rule: str
+  + total: Money
+  + discounted_total: Money
+  + amount_saved(): Money
+}
+
+class ModuloDescuentos <<módulo app.specifications>> {
+  + resolve_discount(order: Order): Decimal
+  + evaluate_discount(order: Order): DiscountResult
+  + evaluate_rules(order: Order): list
+}
+
+Specification <|-- AndSpec
+Specification <|-- OrSpec
+Specification <|-- NotSpec
+Specification <|-- MinimumAmountSpec
+Specification <|-- VIPCustomerSpec
+Specification <|-- MinimumUnitsSpec
+Specification <|-- ActivePromotionSpec
+Specification <|-- ActiveCustomerSpec
+Specification <|-- HasItemsSpec
+
+AndSpec o-- Specification : left / right
+OrSpec o-- Specification : left / right
+NotSpec o-- Specification : spec
+
+DiscountResult --> Money : total / discounted_total
+ModuloDescuentos ..> Specification : evalúa
+ModuloDescuentos ..> DiscountResult : construye
+
+note right of Specification
+  Se combinan con AND (&),
+  OR (|) y NOT (~).
+end note
+note right of ModuloDescuentos
+  TEN_PERCENT_RULE = MinimumAmountSpec(500)
+    & VIPCustomerSpec & MinimumUnitsSpec(4)
+    & ~ActivePromotionSpec
+  FIVE_PERCENT_RULE = MinimumAmountSpec(5000)
+    & ~ActivePromotionSpec
+  DISCOUNT_RULE = TEN_PERCENT_RULE | FIVE_PERCENT_RULE
+  Si ambas se cumplen, gana el 10 %.
+end note
+@enduml

@@ -1,0 +1,23 @@
+@startuml
+title Flujo de POST /orders/{order_id}/confirm
+
+start
+:POST /orders/{order_id}/confirm;
+if (¿Existe el pedido?) then (No)
+  :404 Not Found;
+  stop
+endif
+if (¿Estado DRAFT?) then (No)
+  :409 Conflict;
+  stop
+endif
+if (¿Cliente activo y pedido con artículos?) then (No)
+  :422 Unprocessable Content;
+  stop
+endif
+:Order.confirm();
+:status = CONFIRMED;
+:Registrar OrderConfirmed;
+:200 OK + pedido actualizado;
+stop
+@enduml

@@ -1,0 +1,17 @@
+# Dependencias de la Práctica Guiada Actividad 4 (TechStore, CLN Unidad 4)
+#
+# Instalación:
+#   python -m venv .venv
+#   .venv\Scripts\Activate.ps1
+#   python -m pip install -r requirements.txt
+#
+# Versiones exactas con las que se validó la entrega (116 pruebas en verde).
+
+fastapi==0.158.2
+uvicorn==0.54.0
+pytest==9.1.1
+httpx==0.28.1
+
+# Dependencias transitivas (fijadas para reproducibilidad)
+pydantic==2.14.1
+starlette==1.9.0

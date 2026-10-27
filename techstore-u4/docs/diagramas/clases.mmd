@@ -1,0 +1,95 @@
+%% Modelo de dominio de TechStore U4 — diagrama de clases
+%% Fuente del render docs/diagramas/clases.png
+classDiagram
+    direction LR
+
+    class Money {
+        <<value object>>
+        +Decimal amount
+        +str currency
+        +add(other) Money
+        +apply_percentage(percentage) Money
+    }
+
+    class Customer {
+        <<entidad>>
+        +str id
+        +bool is_vip
+        +bool active
+    }
+
+    class OrderItem {
+        <<value object>>
+        +str sku
+        +int quantity
+        +Money unit_price
+        +subtotal() Money
+    }
+
+    class OrderStatus {
+        <<enumeración>>
+        DRAFT
+        CONFIRMED
+        SHIPPED
+        DELIVERED
+        CANCELLED
+        RETURNED
+    }
+
+    class DomainEvent {
+        <<value object>>
+        +str name
+        +str order_id
+        +datetime occurred_at
+    }
+
+    class Order {
+        <<aggregate root>>
+        +str id
+        +bool has_promotion
+        +OrderStatus status
+        +str tracking_number
+        +str cancel_reason
+        +units() int
+        +total() Money
+        +is_empty() bool
+        +add_item(item) void
+        +confirm() void
+        +ship(tracking_number) void
+        +cancel(reason) void
+        +deliver() void
+        +return_order() void
+    }
+
+    class DomainException {
+        <<exception>>
+    }
+
+    class InvalidOrderData {
+        <<exception>>
+    }
+
+    class InvalidOrderTransition {
+        <<exception>>
+    }
+
+    class OrderItemLimitExceeded {
+        <<exception>>
+    }
+
+    Order "1" *-- "1" Customer : cliente
+    Order "1" *-- "0..*" OrderItem : renglones
+    Order "1" *-- "0..*" DomainEvent : events
+    Order --> "1" OrderStatus : status
+    OrderItem "1" --> "1" Money : unit_price
+    Order ..> InvalidOrderData : lanza
+    Order ..> InvalidOrderTransition : lanza
+    Order ..> OrderItemLimitExceeded : lanza
+    Order ..> DomainEvent : crea
+    DomainException <|-- InvalidOrderData
+    DomainException <|-- InvalidOrderTransition
+    DomainException <|-- OrderItemLimitExceeded
+
+    note for Money "Inmutable (frozen): cada operación devuelve una instancia nueva."
+    note for Order "units, total e is_empty son propiedades derivadas."
+    note for OrderItem "subtotal = unit_price x quantity; no se captura."

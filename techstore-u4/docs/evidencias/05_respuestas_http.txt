@@ -1,0 +1,49 @@
+﻿=== RESPUESTAS HTTP DE LA API TechStore U4 ===
+Servidor: uvicorn app.api:app   (http://127.0.0.1:8000)
+Nota: el repositorio es en memoria; cada arranque recarga los 16 pedidos en DRAFT.
+
+HTTP 200  GET /orders/O001
+  {"id":"O001","cliente_id":"C001","cliente":"Ana Torres","es_vip":true,"status":"DRAFT","unidades":4,"renglones":2,"total":"2100.00","descuento_pct":"10","total_con_descuento":"1890.00","eventos":[],"items":[{"sku":"SKU001","quantity":2,"unit_price":"600.00","subtotal":"1200.00"},{"sku":"SKU002","quantity":2,"unit_price":"450.00","subtotal":"900.00"}],"tracking_number":null,"cancel_reason":null,"reglas":[{"regla":"total > 500","cumple":true},{"regla":"cliente VIP","cumple":true},{"regla":"unidades >= 4","cumple":true},{"regla":"NOT promociÃ³n activa","cumple":true},{"regla":"total > 5000","cumple":false},{"regla":"cliente activo","cumple":true},{"regla":"pedido con artÃ­culos","cumple":true}],"historial":[]}
+
+HTTP 404  POST /orders/NOEXISTE/confirm
+  {"detail":"El pedido NOEXISTE no existe"}
+
+HTTP 200  POST /orders/O013/confirm
+  {"id":"O013","status":"CONFIRMED","total":"600.00","eventos":["OrderConfirmed"]}
+
+HTTP 409  POST /orders/O013/confirm
+  {"detail":"Solo DRAFT"}
+
+HTTP 422  POST /orders/O007/confirm
+  {"detail":"Requiere artículos y cliente activo"}
+
+HTTP 422  POST /orders/O003/confirm
+  {"detail":"Requiere artículos y cliente activo"}
+
+HTTP 200  POST /orders/O012/confirm
+  {"id":"O012","status":"CONFIRMED","total":"850.00","eventos":["OrderConfirmed"]}
+
+HTTP 422  POST /orders/O012/ship
+  {"detail":"Guía de envío obligatoria"}
+
+HTTP 422  POST /orders/O009/items
+  {"detail":"Máximo 20 unidades por pedido"}
+
+HTTP 200  POST /orders/O016/confirm
+  {"id":"O016","status":"CONFIRMED","total":"2100.00","eventos":["OrderConfirmed"]}
+
+HTTP 200  POST /orders/O016/ship
+  {"id":"O016","status":"SHIPPED","total":"2100.00","eventos":["OrderConfirmed","OrderShipped"]}
+
+HTTP 200  POST /orders/O016/deliver
+  {"id":"O016","status":"DELIVERED","total":"2100.00","eventos":["OrderConfirmed","OrderShipped","OrderDelivered"]}
+
+HTTP 200  POST /orders/O015/confirm
+  {"id":"O015","status":"CONFIRMED","total":"450.00","eventos":["OrderConfirmed"]}
+
+HTTP 200  POST /orders/O015/ship
+  {"id":"O015","status":"SHIPPED","total":"450.00","eventos":["OrderConfirmed","OrderShipped"]}
+
+HTTP 200  POST /orders/O015/return
+  {"id":"O015","status":"RETURNED","total":"450.00","eventos":["OrderConfirmed","OrderShipped","OrderReturned"]}
+

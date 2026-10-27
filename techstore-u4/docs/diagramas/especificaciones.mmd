@@ -1,0 +1,88 @@
+%% Patrón Specification y reglas de descuento — TechStore U4
+%% Fuente del render docs/diagramas/especificaciones.png
+classDiagram
+    direction TB
+
+    class Specification {
+        <<abstracta>>
+        +is_satisfied_by(order) bool
+        +description() str
+        +__and__(other) AndSpec
+        +__or__(other) OrSpec
+        +__invert__() NotSpec
+    }
+
+    class AndSpec {
+        +Specification left
+        +Specification right
+    }
+
+    class OrSpec {
+        +Specification left
+        +Specification right
+    }
+
+    class NotSpec {
+        +Specification spec
+    }
+
+    class MinimumAmountSpec {
+        +Decimal amount
+    }
+
+    class VIPCustomerSpec {
+        +is_satisfied_by(order) bool
+    }
+
+    class MinimumUnitsSpec {
+        +int min_units
+    }
+
+    class ActivePromotionSpec {
+        +is_satisfied_by(order) bool
+    }
+
+    class ActiveCustomerSpec {
+        +is_satisfied_by(order) bool
+    }
+
+    class HasItemsSpec {
+        +is_satisfied_by(order) bool
+    }
+
+    class DiscountResult {
+        <<value object>>
+        +Decimal percentage
+        +str rule
+        +Money total
+        +Money discounted_total
+        +amount_saved() Money
+    }
+
+    class ModuloDescuentos {
+        <<módulo app.specifications>>
+        +resolve_discount(order) Decimal
+        +evaluate_discount(order) DiscountResult
+        +evaluate_rules(order) list
+    }
+
+    Specification <|-- AndSpec
+    Specification <|-- OrSpec
+    Specification <|-- NotSpec
+    Specification <|-- MinimumAmountSpec
+    Specification <|-- VIPCustomerSpec
+    Specification <|-- MinimumUnitsSpec
+    Specification <|-- ActivePromotionSpec
+    Specification <|-- ActiveCustomerSpec
+    Specification <|-- HasItemsSpec
+
+    AndSpec o-- Specification : left / right
+    OrSpec o-- Specification : left / right
+    NotSpec o-- Specification : spec
+
+    DiscountResult --> Money : total / discounted_total
+    ModuloDescuentos ..> Specification : evalúa
+    ModuloDescuentos ..> DiscountResult : construye
+
+    note for Specification "Se combinan con AND (&), OR (|) y NOT (~)."
+    note for ModuloDescuentos "TEN_PERCENT_RULE = MinimumAmountSpec(500) & VIPCustomerSpec & MinimumUnitsSpec(4) & ~ActivePromotionSpec<br/>FIVE_PERCENT_RULE = MinimumAmountSpec(5000) & ~ActivePromotionSpec<br/>DISCOUNT_RULE = TEN_PERCENT_RULE | FIVE_PERCENT_RULE<br/>Si ambas se cumplen, gana el 10 %."

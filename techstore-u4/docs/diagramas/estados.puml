@@ -1,0 +1,18 @@
+' Máquina de estados de Order — TechStore U4
+' Formato UML clásico del curso. Renderizar en plantuml.com o con la extensión de VS Code.
+@startuml
+title Máquina de estados de Order — TechStore U4
+
+[*] --> DRAFT : creación
+
+DRAFT --> CONFIRMED : confirm() / OrderConfirmed
+CONFIRMED --> SHIPPED : ship(guia) / OrderShipped
+SHIPPED --> DELIVERED : deliver() / OrderDelivered
+SHIPPED --> RETURNED : return_order() / OrderReturned
+CONFIRMED --> CANCELLED : cancel(motivo) / OrderCancelled
+
+DRAFT --> [*]
+DELIVERED --> [*]
+CANCELLED --> [*]
+RETURNED --> [*]
+@enduml

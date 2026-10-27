@@ -1,0 +1,43 @@
+' Secuencia de POST /orders/{order_id}/confirm — TechStore U4
+' Formato UML clásico del curso. Renderizar en plantuml.com o con la extensión de VS Code.
+@startuml
+title POST /orders/{order_id}/confirm — secuencia
+autonumber
+actor Cliente
+participant "FastAPI" as API
+participant "_buscar()" as Buscar
+participant "Order" as Order
+participant "DomainEvent" as Evento
+participant "_traducir()" as Traducir
+
+Cliente -> API : POST /orders/O001/confirm
+API -> Buscar : order_id = "O001"
+alt El pedido no existe
+  Buscar --> API : HTTPException 404
+  API --> Cliente : 404 Not Found
+else El pedido existe
+  Buscar --> API : Order
+  API -> Order : confirm()
+  Order -> Order : validar status == DRAFT
+  alt Estado distinto de DRAFT
+    Order --> API : InvalidOrderTransition
+    API -> Traducir : exc
+    Traducir --> API : HTTPException 409
+    API --> Cliente : 409 Conflict
+  else Sin artículos o cliente inactivo
+    Order --> API : InvalidOrderData
+    API -> Traducir : exc
+    Traducir --> API : HTTPException 422
+    API --> Cliente : 422 Unprocessable Content
+  else Datos válidos
+    Order -> Order : status = CONFIRMED
+    Order -> Evento : crear("OrderConfirmed", id)
+    Evento --> Order : evento (occurred_at UTC)
+    Order -> Order : events.append(evento)
+    Order --> API : None
+    API -> API : _transicion(order)
+    API --> Cliente : 200 OK
+  end
+end
+note over Order, Evento : El evento se añade solo si la transición fue válida
+@enduml

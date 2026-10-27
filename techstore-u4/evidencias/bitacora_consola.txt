@@ -1,0 +1,19 @@
+$ python scripts/ejecutar_bitacora.py
+Escenarios registrados: 15
+E01 | O001 | 10% | DRAFT | ninguno | COINCIDE
+E02 | O002 | 0% | DRAFT | ninguno | COINCIDE
+E03 | O003 | RECHAZADO (InvalidOrderData) | DRAFT | ninguno | COINCIDE
+E04 | O005 | 0% | DRAFT | ninguno | COINCIDE
+E05 | O006 | 5% | DRAFT | ninguno | COINCIDE
+E06 | O007 | RECHAZADO (InvalidOrderData) | DRAFT | ninguno | COINCIDE
+E07 | O008 | CONFIRMED | CONFIRMED | OrderConfirmed | COINCIDE
+E08 | O009 | RECHAZADO (OrderItemLimitExceeded) | DRAFT | ninguno | COINCIDE
+E09 | O010 | 0% | DRAFT | ninguno | COINCIDE
+E10 | O011 | 0% | DRAFT | ninguno | COINCIDE
+E11 | O012 | RECHAZADO (InvalidOrderData) | CONFIRMED | OrderConfirmed | COINCIDE
+E12 | O013 | RECHAZADO (InvalidOrderTransition) | CONFIRMED | OrderConfirmed | COINCIDE
+E13 | O014 | RECHAZADO (InvalidOrderTransition) | SHIPPED | OrderConfirmed, OrderShipped | COINCIDE
+E14 | O015 | RETURNED | RETURNED | OrderConfirmed, OrderShipped, OrderReturned | COINCIDE
+E15 | O016 | DELIVERED | DELIVERED | OrderConfirmed, OrderShipped, OrderDelivered | COINCIDE
+Coincidencias: 15/15
+Bit�cora: docs\bitacora\bitacora_escenarios.csv

@@ -1,0 +1,16 @@
+﻿caso,pedido,estado_inicial,operacion,resultado_esperado,resultado_observado,estado_final,evento_emitido,veredicto,detalle
+E01,O001,DRAFT,evaluar_descuento,10%,10%,DRAFT,ninguno,COINCIDE,
+E02,O002,DRAFT,evaluar_descuento,0%,0%,DRAFT,ninguno,COINCIDE,
+E03,O003,DRAFT,confirmar,rechazo,RECHAZADO (InvalidOrderData),DRAFT,ninguno,COINCIDE,InvalidOrderData: Requiere artículos y cliente activo
+E04,O005,DRAFT,evaluar_descuento,0%,0%,DRAFT,ninguno,COINCIDE,
+E05,O006,DRAFT,evaluar_descuento,5%,5%,DRAFT,ninguno,COINCIDE,
+E06,O007,DRAFT,confirmar,rechazo,RECHAZADO (InvalidOrderData),DRAFT,ninguno,COINCIDE,InvalidOrderData: Requiere artículos y cliente activo
+E07,O008,DRAFT,confirmar,exito,CONFIRMED,CONFIRMED,OrderConfirmed,COINCIDE,
+E08,O009,DRAFT,agregar SKU003 x2,rechazo,RECHAZADO (OrderItemLimitExceeded),DRAFT,ninguno,COINCIDE,OrderItemLimitExceeded: Máximo 20 unidades por pedido
+E09,O010,DRAFT,evaluar_descuento,0%,0%,DRAFT,ninguno,COINCIDE,
+E10,O011,DRAFT,evaluar_descuento,0%,0%,DRAFT,ninguno,COINCIDE,
+E11,O012,DRAFT,confirmar y enviar sin guia,rechazo envio,RECHAZADO (InvalidOrderData),CONFIRMED,OrderConfirmed,COINCIDE,InvalidOrderData: Guía de envío obligatoria
+E12,O013,DRAFT,confirmar dos veces,rechazo segunda,RECHAZADO (InvalidOrderTransition),CONFIRMED,OrderConfirmed,COINCIDE,InvalidOrderTransition: Solo DRAFT
+E13,O014,DRAFT,"confirmar, enviar y cancelar",rechazo cancelacion,RECHAZADO (InvalidOrderTransition),SHIPPED,"OrderConfirmed, OrderShipped",COINCIDE,InvalidOrderTransition: Solo CONFIRMED
+E14,O015,DRAFT,"confirmar, enviar y devolver",exito,RETURNED,RETURNED,"OrderConfirmed, OrderShipped, OrderReturned",COINCIDE,
+E15,O016,DRAFT,"confirmar, enviar y entregar",exito,DELIVERED,DELIVERED,"OrderConfirmed, OrderShipped, OrderDelivered",COINCIDE,

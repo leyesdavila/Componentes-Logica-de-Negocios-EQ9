@@ -1,0 +1,16 @@
+%% Máquina de estados de Order — TechStore U4
+%% Fuente del render docs/diagramas/estados.png
+stateDiagram-v2
+    direction LR
+    [*] --> DRAFT : creación
+
+    DRAFT --> CONFIRMED : confirm()<br/>OrderConfirmed
+    CONFIRMED --> SHIPPED : ship(guía)<br/>OrderShipped
+    SHIPPED --> DELIVERED : deliver()<br/>OrderDelivered
+    SHIPPED --> RETURNED : return_order()<br/>OrderReturned
+    CONFIRMED --> CANCELLED : cancel(motivo)<br/>OrderCancelled
+
+    DRAFT --> [*]
+    DELIVERED --> [*]
+    CANCELLED --> [*]
+    RETURNED --> [*]

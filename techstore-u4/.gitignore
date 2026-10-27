@@ -1,0 +1,24 @@
+# Entorno virtual
+.venv/
+venv/
+
+# Bytecode de Python
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Herramientas de pruebas
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Editores / SO
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
+
+# Bases de datos locales (la persistencia es opcional en esta práctica)
+*.db
+*.sqlite
+*.sqlite3

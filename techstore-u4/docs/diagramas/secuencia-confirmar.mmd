@@ -1,0 +1,41 @@
+%% Secuencia de POST /orders/{order_id}/confirm — TechStore U4
+%% Fuente del render docs/diagramas/secuencia-confirmar.png
+sequenceDiagram
+    autonumber
+    actor Cliente
+    participant API as FastAPI
+    participant Buscar as _buscar()
+    participant Order as Order
+    participant Evento as DomainEvent
+    participant Traducir as _traducir()
+
+    Cliente->>API: POST /orders/O001/confirm
+    API->>Buscar: order_id = "O001"
+    alt El pedido no existe
+        Buscar-->>API: HTTPException 404
+        API-->>Cliente: 404 Not Found
+    else El pedido existe
+        Buscar-->>API: Order
+        API->>Order: confirm()
+        Order->>Order: validar status == DRAFT
+        alt Estado distinto de DRAFT
+            Order-->>API: raise InvalidOrderTransition
+            API->>Traducir: exc
+            Traducir-->>API: HTTPException 409
+            API-->>Cliente: 409 Conflict
+        else Sin artículos o cliente inactivo
+            Order-->>API: raise InvalidOrderData
+            API->>Traducir: exc
+            Traducir-->>API: HTTPException 422
+            API-->>Cliente: 422 Unprocessable Content
+        else Datos válidos
+            Order->>Order: status = CONFIRMED
+            Order->>Evento: DomainEvent("OrderConfirmed", id)
+            Evento-->>Order: occurred_at = ahora (UTC)
+            Order->>Order: events.append(evento)
+            Order-->>API: None
+            API->>API: _transicion(order)
+            API-->>Cliente: 200 OK (id, status, total, eventos)
+        end
+    end
+    note over Order,Evento: El evento se añade solo si la transición fue válida
